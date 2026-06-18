@@ -1,0 +1,145 @@
+---
+import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/archivo';
+import '@fontsource-variable/jetbrains-mono';
+import '../styles/global.css';
+import { site } from '../data/content';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `${site.name} — ${site.role.de}`,
+  description = site.description.de,
+} = Astro.props;
+
+// BASE_URL may or may not carry a trailing slash; normalize to a clean prefix
+// ('' at the root, '/Portofolio' on Pages) so path joins never double/eat slashes.
+const baseClean = import.meta.env.BASE_URL.replace(/\/$/, '');
+const origin = Astro.site ?? Astro.url.origin;
+const canonical = new URL(`${baseClean}/`, origin).href;
+const ogImage = new URL(`${baseClean}/og-image.png`, origin).href;
+---
+
+<!doctype html>
+<html lang="de" data-lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={`${baseClean}/favicon.svg`} />
+    <link rel="canonical" href={canonical} />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site.name} />
+    <meta name="theme-color" content="#f3f1e7" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Set saved language before paint to avoid a flash of the wrong language -->
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      try {
+        var l = localStorage.getItem('lang');
+        if (l === 'en' || l === 'de') {
+          document.documentElement.setAttribute('data-lang', l);
+          document.documentElement.setAttribute('lang', l);
+        }
+      } catch (e) {}
+    </script>
+  </head>
+  <body class="min-h-screen bg-paper text-ink antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-white"
+    >
+      <span lang="de" data-lang-de>Zum Inhalt springen</span><span lang="en" data-lang-en>Skip to content</span>
+    </a>
+
+    <slot />
+
+    <!-- Interactivity: language toggle, scroll-reveal, mobile menu -->
+    <script>
+      const root = document.documentElement;
+
+      // ---- Language toggle ----
+      // setLang only syncs the DOM + aria-pressed; we persist a choice to
+      // localStorage solely when the user actually clicks the toggle.
+      function setLang(lang: string) {
+        root.setAttribute('data-lang', lang);
+        root.setAttribute('lang', lang);
+        document.querySelectorAll<HTMLElement>('[data-set-lang]').forEach((el) => {
+          el.setAttribute('aria-pressed', String(el.dataset.setLang === lang));
+        });
+      }
+      setLang(root.getAttribute('data-lang') ?? 'de');
+      document.querySelectorAll<HTMLElement>('[data-set-lang]').forEach((el) => {
+        el.addEventListener('click', () => {
+          const lang = el.dataset.setLang as string;
+          setLang(lang);
+          try {
+            localStorage.setItem('lang', lang);
+          } catch (e) {}
+        });
+      });
+
+      // ---- Scroll-reveal ----
+      const revealEls = document.querySelectorAll<HTMLElement>('.reveal');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduceMotion && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.12 },
+        );
+        revealEls.forEach((el) => io.observe(el));
+      } else {
+        revealEls.forEach((el) => el.classList.add('is-visible'));
+      }
+
+      // ---- Mobile menu ----
+      const menuButton = document.querySelector<HTMLButtonElement>('[data-menu-button]');
+      const mobileMenu = document.querySelector<HTMLElement>('[data-mobile-menu]');
+      const isMenuOpen = () => menuButton?.getAttribute('aria-expanded') === 'true';
+      function setMenu(open: boolean) {
+        menuButton?.setAttribute('aria-expanded', String(open));
+        if (mobileMenu) {
+          mobileMenu.setAttribute('data-open', String(open));
+          // Remove the collapsed menu from the tab/accessibility order.
+          mobileMenu.toggleAttribute('inert', !open);
+        }
+      }
+      menuButton?.addEventListener('click', () => setMenu(!isMenuOpen()));
+      mobileMenu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && isMenuOpen()) {
+          setMenu(false);
+          menuButton?.focus();
+        }
+      });
+      document.addEventListener('click', (event) => {
+        const target = event.target as Node;
+        if (isMenuOpen() && !menuButton?.contains(target) && !mobileMenu?.contains(target)) {
+          setMenu(false);
+        }
+      });
+    </script>
+  </body>
+</html>

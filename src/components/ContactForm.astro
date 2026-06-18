@@ -1,0 +1,187 @@
+---
+import { Icon } from 'astro-icon/components';
+import { contact, site } from '../data/content';
+
+// Web3Forms access key (https://web3forms.com). When unset, the form
+// gracefully falls back to a mailto: link so it always works.
+const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
+
+const field =
+  'mt-2 w-full border-2 border-ink bg-card px-3.5 py-2.5 font-sans text-ink placeholder:text-muted/60 transition focus:border-ink focus:outline-none focus:shadow-[3px_3px_0_0_#c3f53a]';
+const label = 'block font-mono text-xs font-bold uppercase tracking-wide text-ink';
+---
+
+<form
+  id="contact-form"
+  class="reveal space-y-5"
+  data-email={site.email}
+  data-success-de={contact.form.success.de}
+  data-success-en={contact.form.success.en}
+  data-error-de={contact.form.error.de}
+  data-error-en={contact.form.error.en}
+  data-mailto-de={contact.form.mailto.de}
+  data-mailto-en={contact.form.mailto.en}
+  novalidate
+>
+  <input type="hidden" name="access_key" value={accessKey} />
+  <input type="hidden" name="subject" value="Neue Nachricht über das Portfolio" />
+  <input type="hidden" name="from_name" value="Portfolio Kontaktformular" />
+  <!-- Honeypot: bots fill this; humans never see it -->
+  <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label for="name" class={label}>
+        <span lang="de" data-lang-de>{contact.form.name.de}</span><span lang="en" data-lang-en>{contact.form.name.en}</span>
+      </label>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        required
+        autocomplete="name"
+        class={field}
+        data-ph-de={contact.form.namePlaceholder.de}
+        data-ph-en={contact.form.namePlaceholder.en}
+        placeholder={contact.form.namePlaceholder.de}
+      />
+    </div>
+    <div>
+      <label for="email" class={label}>
+        <span lang="de" data-lang-de>{contact.form.email.de}</span><span lang="en" data-lang-en>{contact.form.email.en}</span>
+      </label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        required
+        autocomplete="email"
+        class={field}
+        data-ph-de={contact.form.emailPlaceholder.de}
+        data-ph-en={contact.form.emailPlaceholder.en}
+        placeholder={contact.form.emailPlaceholder.de}
+      />
+    </div>
+  </div>
+
+  <div>
+    <label for="message" class={label}>
+      <span lang="de" data-lang-de>{contact.form.message.de}</span><span lang="en" data-lang-en>{contact.form.message.en}</span>
+    </label>
+    <textarea
+      id="message"
+      name="message"
+      rows="5"
+      required
+      class={`${field} resize-y`}
+      data-ph-de={contact.form.messagePlaceholder.de}
+      data-ph-en={contact.form.messagePlaceholder.en}
+      placeholder={contact.form.messagePlaceholder.de}></textarea>
+  </div>
+
+  <button
+    type="submit"
+    class="inline-flex items-center justify-center gap-2 border-2 border-ink bg-ink px-6 py-3 font-mono text-sm font-bold uppercase text-accent shadow-[5px_5px_0_0_#c3f53a] transition hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[7px_7px_0_0_#c3f53a] disabled:cursor-not-allowed disabled:opacity-70"
+  >
+    <Icon name="lucide:loader-circle" data-spinner class="h-4 w-4 animate-spin" aria-hidden="true" />
+    <span data-form-idle>
+      <span lang="de" data-lang-de>{contact.form.submit.de}</span><span lang="en" data-lang-en>{contact.form.submit.en}</span>
+    </span>
+    <span data-form-busy>
+      <span lang="de" data-lang-de>{contact.form.sending.de}</span><span lang="en" data-lang-en>{contact.form.sending.en}</span>
+    </span>
+    <Icon name="lucide:send" data-send-icon class="h-4 w-4" aria-hidden="true" />
+  </button>
+
+  <p
+    data-form-status
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+    class="hidden border-2 border-ink px-4 py-3 font-mono text-sm font-medium data-[state=success]:block data-[state=success]:bg-accent data-[state=success]:text-ink data-[state=error]:block data-[state=error]:bg-red-200 data-[state=error]:text-ink"
+  >
+  </p>
+</form>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  if (form) {
+    const statusEl = form.querySelector<HTMLElement>('[data-form-status]');
+    const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+    // Keep placeholders in sync with the active language.
+    const placeholderFields = form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[data-ph-de]');
+    const applyPlaceholders = () => {
+      const lang = document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'de';
+      placeholderFields.forEach((el) => {
+        const value = lang === 'en' ? el.dataset.phEn : el.dataset.phDe;
+        if (value) el.placeholder = value;
+      });
+    };
+    applyPlaceholders();
+    new MutationObserver(applyPlaceholders).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-lang'],
+    });
+
+    const showStatus = (type: 'success' | 'error' | 'info') => {
+      if (!statusEl) return;
+      const messages = {
+        success: [form.dataset.successDe, form.dataset.successEn],
+        error: [form.dataset.errorDe, form.dataset.errorEn],
+        info: [form.dataset.mailtoDe, form.dataset.mailtoEn],
+      } as const;
+      const [de, en] = messages[type];
+      statusEl.innerHTML = `<span lang="de" data-lang-de>${de ?? ''}</span><span lang="en" data-lang-en>${en ?? ''}</span>`;
+      statusEl.setAttribute('data-state', type);
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      statusEl?.removeAttribute('data-state');
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const data = new FormData(form);
+      const accessKey = String(data.get('access_key') ?? '').trim();
+
+      // No Web3Forms key configured → open the visitor's mail client instead.
+      if (!accessKey) {
+        const email = form.dataset.email ?? '';
+        const subject = encodeURIComponent('Nachricht über das Portfolio');
+        const body = encodeURIComponent(
+          `Name: ${data.get('name')}\nE-Mail: ${data.get('email')}\n\n${data.get('message')}`,
+        );
+        showStatus('info');
+        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+        return;
+      }
+
+      submitButton?.setAttribute('disabled', 'true');
+      form.setAttribute('data-sending', 'true');
+      try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: data,
+        });
+        const result = await response.json();
+        if (result.success) {
+          showStatus('success');
+          form.reset();
+          applyPlaceholders();
+        } else {
+          showStatus('error');
+        }
+      } catch {
+        showStatus('error');
+      } finally {
+        submitButton?.removeAttribute('disabled');
+        form.removeAttribute('data-sending');
+      }
+    });
+  }
+</script>

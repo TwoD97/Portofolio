@@ -1,0 +1,29 @@
+---
+// Segmented DE / EN switch. Active state is driven by `aria-pressed`,
+// kept in sync with `data-lang` by the global script in Layout.astro.
+---
+
+<div
+  role="group"
+  aria-label="Sprache wählen / Select language"
+  data-js-only
+  class="inline-flex items-stretch border-2 border-ink bg-card font-mono text-xs font-bold"
+>
+  <button
+    type="button"
+    data-set-lang="de"
+    aria-pressed="true"
+    class="px-2.5 py-1 text-ink transition-colors aria-pressed:bg-accent"
+  >
+    DE
+  </button>
+  <span class="w-0.5 bg-ink" aria-hidden="true"></span>
+  <button
+    type="button"
+    data-set-lang="en"
+    aria-pressed="false"
+    class="px-2.5 py-1 text-ink transition-colors aria-pressed:bg-accent"
+  >
+    EN
+  </button>
+</div>

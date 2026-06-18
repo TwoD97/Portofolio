@@ -1,0 +1,183 @@
+@import "tailwindcss";
+
+/* ===== Design tokens — "Neo-Brutalist Mono" (Tailwind v4 @theme) ===== */
+@theme {
+  /* Warm off-white paper, hard black ink, one loud lime accent */
+  --color-paper: #f3f1e7;
+  --color-paper-2: #e9e6d8;
+  --color-ink: #0a0a0a;
+  --color-muted: #524e44;
+  --color-line: #0a0a0a;
+  --color-card: #ffffff;
+  --color-accent: #c3f53a;
+  --color-accent-dark: #a8db1f;
+  --color-accent-soft: #ecf8c6;
+
+  /* Type: heavy display, geometric grotesk body, monospace labels */
+  --font-display: "Archivo Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: "Space Grotesk Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ===== Base ===== */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+
+/* Chunky brutalist focus ring */
+:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+/* ===== Brutalist primitives ===== */
+.btl-border {
+  border: 2px solid var(--color-ink);
+}
+.btl-shadow {
+  box-shadow: 5px 5px 0 0 var(--color-ink);
+}
+.btl-shadow-sm {
+  box-shadow: 3px 3px 0 0 var(--color-ink);
+}
+.btl-shadow-accent {
+  box-shadow: 5px 5px 0 0 var(--color-accent), 5px 5px 0 2px var(--color-ink);
+}
+
+/* Hover-reactive card: lifts up-left, shadow grows */
+.btl-card {
+  background: var(--color-card);
+  border: 2px solid var(--color-ink);
+  box-shadow: 5px 5px 0 0 var(--color-ink);
+  transition:
+    transform 0.16s var(--ease-out-soft),
+    box-shadow 0.16s var(--ease-out-soft);
+}
+.btl-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 0 var(--color-ink);
+}
+
+/* Faint engineering grid for hero/section backgrounds */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(10, 10, 10, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10, 10, 10, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ===== Scroll-reveal ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.6s var(--ease-out-soft),
+    transform 0.6s var(--ease-out-soft);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .btl-card {
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ===== Tech logos: greyscale → brand color on hover ===== */
+.tech-logo svg {
+  filter: grayscale(1);
+  opacity: 0.9;
+  transition:
+    filter 0.25s ease,
+    opacity 0.25s ease;
+}
+.tech-logo:hover svg,
+.tech-logo:focus-within svg {
+  filter: grayscale(0);
+  opacity: 1;
+}
+/* Focus-area icons stay at full color */
+.tech-logo--solid svg {
+  filter: none;
+  opacity: 1;
+}
+
+/* ===== Language toggle: show active language's strings ===== */
+:root[data-lang="de"] [data-lang-en],
+:root[data-lang="en"] [data-lang-de] {
+  display: none !important;
+}
+
+/* Hide JS-only controls (e.g. the language toggle) when JavaScript is off */
+:root:not(.js) [data-js-only] {
+  display: none !important;
+}
+
+/* Mobile menu button: swap hamburger ↔ close icon with the expanded state */
+[data-menu-button][aria-expanded="true"] [data-icon-menu],
+[data-menu-button][aria-expanded="false"] [data-icon-close] {
+  display: none;
+}
+
+/* ===== Contact form: idle / sending button states ===== */
+[data-spinner],
+[data-form-busy] {
+  display: none;
+}
+form[data-sending="true"] [data-spinner] {
+  display: inline-block;
+}
+form[data-sending="true"] [data-form-busy] {
+  display: inline;
+}
+form[data-sending="true"] [data-form-idle],
+form[data-sending="true"] [data-send-icon] {
+  display: none;
+}
+
+/* Neutral "info" status (e.g. opening the mail client) */
+[data-form-status][data-state="info"] {
+  display: block;
+  background: var(--color-accent-soft);
+  color: var(--color-ink);
+}

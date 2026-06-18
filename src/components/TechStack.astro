@@ -1,0 +1,40 @@
+---
+import { Icon } from 'astro-icon/components';
+import Section from './Section.astro';
+import SectionHeading from './SectionHeading.astro';
+import { techStack } from '../data/content';
+---
+
+<Section id="tech-stack" class="border-b-2 border-ink">
+  <SectionHeading
+    title={techStack.heading}
+    intro={techStack.intro}
+    kicker={{ de: '02 · Stack', en: '02 · Stack' }}
+  />
+
+  <div class="space-y-9">
+    {
+      techStack.groups.map((group) => (
+        <div class="reveal">
+          <h3 class="mb-4 font-mono text-xs font-bold uppercase tracking-widest text-muted">
+            <span lang="de" data-lang-de>{group.title.de}</span>
+            <span lang="en" data-lang-en>{group.title.en}</span>
+          </h3>
+          <ul class="flex flex-wrap gap-3">
+            {group.items.map((item) => (
+              <li
+                class:list={[
+                  'tech-logo flex items-center gap-2.5 border-2 border-ink bg-card px-3.5 py-2 shadow-[3px_3px_0_0_#0a0a0a] transition hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_0_#0a0a0a]',
+                  group.solid && 'tech-logo--solid',
+                ]}
+              >
+                <Icon name={item.icon} class="h-5 w-5" style={`color:${item.color}`} aria-hidden="true" />
+                <span class="font-mono text-sm font-medium text-ink">{item.name}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</Section>

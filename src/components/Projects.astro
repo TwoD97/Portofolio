@@ -1,0 +1,18 @@
+---
+import Section from './Section.astro';
+import SectionHeading from './SectionHeading.astro';
+import ProjectCard from './ProjectCard.astro';
+import { projects } from '../data/content';
+---
+
+<Section id="projekte" class="border-b-2 border-ink bg-paper-2">
+  <SectionHeading
+    title={projects.heading}
+    intro={projects.intro}
+    kicker={{ de: '03 · Werk', en: '03 · Work' }}
+  />
+
+  <div class="reveal grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    {projects.items.map((project) => <ProjectCard project={project} />)}
+  </div>
+</Section>

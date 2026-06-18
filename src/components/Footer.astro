@@ -1,0 +1,35 @@
+---
+import { Icon } from 'astro-icon/components';
+import { footer, site } from '../data/content';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t-2 border-ink bg-paper-2">
+  <div
+    class="mx-auto flex w-full max-w-5xl flex-col items-center justify-between gap-4 px-5 py-7 text-center sm:flex-row sm:text-left"
+  >
+    <p class="font-mono text-xs text-muted">
+      © {year} {site.name}.
+      <span lang="de" data-lang-de>{footer.builtWith.de}</span><span lang="en" data-lang-en>{footer.builtWith.en}</span>
+    </p>
+
+    <div class="flex items-center gap-4">
+      <a href={site.github} target="_blank" rel="noopener noreferrer" class="text-ink transition-colors hover:text-muted">
+        <span class="sr-only">GitHub</span>
+        <Icon name="simple-icons:github" class="h-5 w-5" aria-hidden="true" />
+      </a>
+      <a href={`mailto:${site.email}`} class="text-ink transition-colors hover:text-muted">
+        <span class="sr-only">E-Mail</span>
+        <Icon name="lucide:mail" class="h-5 w-5" aria-hidden="true" />
+      </a>
+      <a
+        href="#top"
+        class="inline-flex items-center gap-1.5 border-2 border-ink bg-card px-3 py-1.5 font-mono text-xs font-bold uppercase text-ink shadow-[3px_3px_0_0_#0a0a0a] transition hover:-translate-y-0.5 hover:shadow-[4px_4px_0_0_#0a0a0a]"
+      >
+        <span lang="de" data-lang-de>{footer.backToTop.de}</span><span lang="en" data-lang-en>{footer.backToTop.en}</span>
+        <Icon name="lucide:arrow-up" class="h-4 w-4" aria-hidden="true" />
+      </a>
+    </div>
+  </div>
+</footer>

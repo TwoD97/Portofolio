@@ -1,0 +1,48 @@
+---
+import { Icon } from 'astro-icon/components';
+import { hero, site } from '../data/content';
+---
+
+<section id="hero" class="grid-bg relative border-b-2 border-ink">
+  <div class="mx-auto flex min-h-[88vh] w-full max-w-5xl flex-col justify-center px-5 py-24">
+    <span
+      class="reveal mb-7 inline-flex w-fit items-center gap-2.5 border-2 border-ink bg-accent px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider text-ink shadow-[4px_4px_0_0_#0a0a0a]"
+    >
+      <span class="h-2 w-2 bg-ink"></span>
+      <span lang="de" data-lang-de>{hero.eyebrow.de}</span><span lang="en" data-lang-en>{hero.eyebrow.en}</span>
+    </span>
+
+    <h1 class="reveal max-w-4xl font-display text-5xl font-extrabold uppercase leading-[0.92] tracking-tight text-ink sm:text-7xl">
+      <span lang="de" data-lang-de>{hero.headline.de}</span><span lang="en" data-lang-en>{hero.headline.en}</span>
+    </h1>
+
+    <p class="reveal mt-7 max-w-xl font-mono text-sm leading-relaxed text-muted sm:text-base">
+      <span lang="de" data-lang-de>{hero.tagline.de}</span><span lang="en" data-lang-en>{hero.tagline.en}</span>
+    </p>
+
+    <div class="reveal mt-9 flex flex-wrap items-center gap-4">
+      <a
+        href="#projekte"
+        class="inline-flex items-center gap-2 border-2 border-ink bg-ink px-6 py-3 font-mono text-sm font-bold uppercase text-accent shadow-[5px_5px_0_0_#c3f53a] transition hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[7px_7px_0_0_#c3f53a]"
+      >
+        <span lang="de" data-lang-de>{hero.primaryCta.de}</span><span lang="en" data-lang-en>{hero.primaryCta.en}</span>
+        <Icon name="lucide:arrow-right" class="h-4 w-4" aria-hidden="true" />
+      </a>
+      <a
+        href="#kontakt"
+        class="inline-flex items-center gap-2 border-2 border-ink bg-card px-6 py-3 font-mono text-sm font-bold uppercase text-ink shadow-[5px_5px_0_0_#0a0a0a] transition hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[7px_7px_0_0_#0a0a0a]"
+      >
+        <span lang="de" data-lang-de>{hero.secondaryCta.de}</span><span lang="en" data-lang-en>{hero.secondaryCta.en}</span>
+      </a>
+      <a
+        href={site.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="grid h-12 w-12 place-items-center border-2 border-ink bg-card text-ink shadow-[4px_4px_0_0_#0a0a0a] transition hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_#0a0a0a]"
+      >
+        <span class="sr-only">GitHub</span>
+        <Icon name="simple-icons:github" class="h-5 w-5" aria-hidden="true" />
+      </a>
+    </div>
+  </div>
+</section>

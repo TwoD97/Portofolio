@@ -1,0 +1,50 @@
+---
+import { Icon } from 'astro-icon/components';
+import Section from './Section.astro';
+import SectionHeading from './SectionHeading.astro';
+import { about } from '../data/content';
+---
+
+<Section id="ueber-mich" class="border-b-2 border-ink bg-paper-2">
+  <SectionHeading title={about.heading} kicker={{ de: '01 · Profil', en: '01 · Profile' }} />
+
+  <div class="grid gap-10 md:grid-cols-[1.6fr_1fr] md:gap-12">
+    <div class="reveal space-y-5">
+      <p class="font-display text-2xl font-bold leading-snug text-ink sm:text-3xl">
+        <span lang="de" data-lang-de>{about.lead.de}</span><span lang="en" data-lang-en>{about.lead.en}</span>
+      </p>
+      {
+        about.paragraphs.map((p) => (
+          <p class="text-base leading-relaxed text-muted sm:text-lg">
+            <span lang="de" data-lang-de>{p.de}</span>
+            <span lang="en" data-lang-en>{p.en}</span>
+          </p>
+        ))
+      }
+    </div>
+
+    <aside class="reveal">
+      <dl class="btl-card divide-y-2 divide-ink">
+        {
+          about.facts.map((fact) => (
+            <div class="flex items-start gap-3.5 p-4">
+              <span class="grid h-9 w-9 shrink-0 place-items-center border-2 border-ink bg-accent text-ink">
+                <Icon name={fact.icon} class="h-5 w-5" aria-hidden="true" />
+              </span>
+              <div>
+                <dt class="font-mono text-[11px] font-bold uppercase tracking-wide text-muted">
+                  <span lang="de" data-lang-de>{fact.label.de}</span>
+                  <span lang="en" data-lang-en>{fact.label.en}</span>
+                </dt>
+                <dd class="font-semibold text-ink">
+                  <span lang="de" data-lang-de>{fact.value.de}</span>
+                  <span lang="en" data-lang-en>{fact.value.en}</span>
+                </dd>
+              </div>
+            </div>
+          ))
+        }
+      </dl>
+    </aside>
+  </div>
+</Section>

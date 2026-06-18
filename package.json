@@ -1,0 +1,31 @@
+{
+  "name": "denys-tudosa-portfolio",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "og": "node scripts/make-og.mjs",
+    "build": "node scripts/verify-icons.mjs && node scripts/make-og.mjs && astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^6.4.8",
+    "astro-icon": "^1.1.5",
+    "@astrojs/sitemap": "^3.7.3",
+    "@fontsource-variable/archivo": "^5.2.8",
+    "@fontsource-variable/jetbrains-mono": "^5.2.8",
+    "@fontsource-variable/space-grotesk": "^5.2.10",
+    "@iconify-json/lucide": "^1.2.113",
+    "@iconify-json/simple-icons": "^1.2.86",
+    "@tailwindcss/postcss": "^4.3.1",
+    "sharp": "^0.35.1",
+    "tailwindcss": "^4.3.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "typescript": "^5.9.0"
+  }
+}

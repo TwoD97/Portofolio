@@ -1,0 +1,55 @@
+---
+import { Icon } from 'astro-icon/components';
+import Section from './Section.astro';
+import SectionHeading from './SectionHeading.astro';
+import ContactForm from './ContactForm.astro';
+import { contact, site } from '../data/content';
+---
+
+<Section id="kontakt">
+  <SectionHeading
+    title={contact.heading}
+    intro={contact.intro}
+    kicker={{ de: '04 · Kontakt', en: '04 · Contact' }}
+  />
+
+  <div class="grid gap-10 md:grid-cols-[1.5fr_1fr] md:gap-12">
+    <ContactForm />
+
+    <aside class="reveal flex flex-col gap-4">
+      <p class="font-mono text-xs font-bold uppercase tracking-widest text-muted">
+        <span lang="de" data-lang-de>{contact.directLabel.de}</span><span lang="en" data-lang-en>{contact.directLabel.en}</span>
+      </p>
+
+      <a href={`mailto:${site.email}`} class="btl-card group flex items-center gap-4 p-4">
+        <span class="grid h-11 w-11 shrink-0 place-items-center border-2 border-ink bg-accent text-ink">
+          <Icon name="lucide:mail" class="h-5 w-5" aria-hidden="true" />
+        </span>
+        <span class="min-w-0">
+          <span class="block font-mono text-[11px] font-bold uppercase tracking-wide text-muted">E-Mail</span>
+          <span class="block truncate font-semibold text-ink">{site.email}</span>
+        </span>
+      </a>
+
+      <a
+        href={site.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btl-card group flex items-center gap-4 p-4"
+      >
+        <span class="grid h-11 w-11 shrink-0 place-items-center border-2 border-ink bg-accent text-ink">
+          <Icon name="simple-icons:github" class="h-5 w-5" aria-hidden="true" />
+        </span>
+        <span class="min-w-0">
+          <span class="block font-mono text-[11px] font-bold uppercase tracking-wide text-muted">GitHub</span>
+          <span class="block truncate font-semibold text-ink">@{site.githubHandle}</span>
+        </span>
+      </a>
+
+      <div class="mt-1 flex items-center gap-2.5 font-mono text-sm text-muted">
+        <Icon name="lucide:map-pin" class="h-4 w-4 text-ink" aria-hidden="true" />
+        <span lang="de" data-lang-de>{site.location.de}</span><span lang="en" data-lang-en>{site.location.en}</span>
+      </div>
+    </aside>
+  </div>
+</Section>

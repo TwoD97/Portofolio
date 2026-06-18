@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://twod97.github.io/Portofolio/sitemap-index.xml

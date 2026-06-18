@@ -1,0 +1,32 @@
+---
+import type { Bilingual } from '../data/content';
+
+interface Props {
+  title: Bilingual;
+  intro?: Bilingual;
+  kicker?: Bilingual;
+}
+const { title, intro, kicker } = Astro.props;
+---
+
+<div class="reveal mb-12 sm:mb-14">
+  {
+    kicker && (
+      <span class="mb-5 inline-block border-2 border-ink bg-accent px-3 py-1 font-mono text-xs font-bold uppercase tracking-wider text-ink shadow-[3px_3px_0_0_#0a0a0a]">
+        <span lang="de" data-lang-de>{kicker.de}</span>
+        <span lang="en" data-lang-en>{kicker.en}</span>
+      </span>
+    )
+  }
+  <h2 class="font-display text-4xl font-extrabold uppercase leading-[0.95] tracking-tight text-ink sm:text-5xl">
+    <span lang="de" data-lang-de>{title.de}</span><span lang="en" data-lang-en>{title.en}</span>
+  </h2>
+  {
+    intro && (
+      <p class="mt-5 max-w-2xl font-mono text-sm leading-relaxed text-muted sm:text-[15px]">
+        <span lang="de" data-lang-de>{intro.de}</span>
+        <span lang="en" data-lang-en>{intro.en}</span>
+      </p>
+    )
+  }
+</div>

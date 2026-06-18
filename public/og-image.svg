@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#0a0a0a" stroke-width="1" opacity="0.06" />
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="#f3f1e7" />
+  <rect width="1200" height="630" fill="url(#grid)" />
+  <rect x="22" y="22" width="1156" height="586" fill="none" stroke="#0a0a0a" stroke-width="6" />
+
+  <!-- Badge with hard offset shadow -->
+  <rect x="86" y="98" width="560" height="56" fill="#0a0a0a" />
+  <rect x="80" y="92" width="560" height="56" fill="#c3f53a" stroke="#0a0a0a" stroke-width="3" />
+  <text x="104" y="129" font-family="'JetBrains Mono', monospace" font-size="21" font-weight="700" fill="#0a0a0a" letter-spacing="1.5">FULL-STACK · TYPESCRIPT &amp; KI</text>
+
+  <text x="76" y="312" font-family="Archivo, 'Arial Black', Arial, sans-serif" font-size="108" font-weight="900" fill="#0a0a0a" letter-spacing="-3">DENYS TUDOSA</text>
+
+  <text x="80" y="384" font-family="'JetBrains Mono', monospace" font-size="29" fill="#0a0a0a">// KI-gestützte Web-Apps — RAG-Chatbots &amp; lokale LLM-Tools</text>
+  <rect x="80" y="420" width="300" height="14" fill="#c3f53a" stroke="#0a0a0a" stroke-width="3" />
+
+  <text x="80" y="556" font-family="'JetBrains Mono', monospace" font-size="24" fill="#524e44">github.com/TwoD97 · Salzburg, AT</text>
+</svg>
