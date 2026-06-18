@@ -17,8 +17,8 @@ const used = {
   ],
   lucide: [
     'bot', 'database', 'webhook', 'sparkles', 'map-pin', 'briefcase', 'languages',
-    'notebook-pen', 'bot-message-square', 'layout-panel-left', 'list-checks', 'image',
-    'menu', 'x', 'arrow-right', 'arrow-up', 'chevron-down', 'mail', 'send', 'loader-circle',
+    'file-search', 'bot-message-square', 'layout-panel-left', 'list-checks', 'image',
+    'menu', 'x', 'arrow-right', 'arrow-up', 'mail', 'send', 'loader-circle', 'external-link',
   ],
 };
 

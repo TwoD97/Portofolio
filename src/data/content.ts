@@ -43,10 +43,10 @@ export interface Project {
   tech: string[];
   /** lucide icon for the card header. */
   icon: string;
-  link?: {
+  links?: {
     href: string;
     label: Bilingual;
-  };
+  }[];
   featured?: boolean;
 }
 
@@ -179,19 +179,22 @@ export const projects = {
     {
       id: 'loklm',
       featured: true,
-      icon: 'lucide:notebook-pen',
+      icon: 'lucide:file-search',
       title: { de: 'LokLM', en: 'LokLM' },
-      context: { de: 'Eigenes Projekt', en: 'Personal project' },
+      context: { de: 'Open-Source-Projekt', en: 'Open-source project' },
       tagline: {
-        de: 'Lokales KI-Notizbuch — deine Daten bleiben auf deinem Gerät.',
-        en: 'A local-first AI notebook — your data stays on your device.',
+        de: 'Lokaler KI-Wissensassistent — befrage deine eigenen Dokumente, vollständig offline.',
+        en: 'A local AI knowledge assistant — query your own documents, fully offline.',
       },
       description: {
-        de: 'Eine Desktop-Anwendung, die Sprachmodelle vollständig lokal ausführt. Konsequent lokal: Notizen und KI-Funktionen laufen ohne Cloud – datenschutzfreundlich und offline. Gebaut mit Electron und TypeScript.',
-        en: 'A desktop application that runs language models entirely on your machine. Strictly local-first: notes and AI features run without the cloud — privacy-friendly and offline. Built with Electron and TypeScript.',
+        de: 'Eine Windows-Desktop-App, mit der man eigene Dokumente (PDF, Word, Markdown, Code) lokal durchsuchen und per Chat befragen kann – jede Antwort mit klickbaren Quellenverweisen. Läuft vollständig offline, mit verschlüsseltem Vault (AES-256-GCM); lokale Modelle via llama.cpp und Whisper, inklusive RAG-Pipeline.',
+        en: 'A Windows desktop app to search and chat with your own documents (PDF, Word, Markdown, code) locally — every answer backed by clickable source citations. Fully offline, with an encrypted vault (AES-256-GCM); local models via llama.cpp and Whisper, including a full RAG pipeline.',
       },
-      tech: ['TypeScript', 'Electron', 'Vite', 'Local LLM', 'pnpm'],
-      link: { href: 'https://github.com/TwoD97/LokLM', label: { de: 'Code auf GitHub', en: 'Code on GitHub' } },
+      tech: ['TypeScript', 'Electron', 'llama.cpp', 'RAG', 'SQLite', 'Whisper'],
+      links: [
+        { href: 'https://loklm.com', label: { de: 'Zur Website', en: 'Visit website' } },
+        { href: 'https://github.com/TwoD97/LokLM', label: { de: 'Code auf GitHub', en: 'Code on GitHub' } },
+      ],
     },
     {
       id: 'rag-chatbot',

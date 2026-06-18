@@ -50,17 +50,27 @@ const featured = project.featured ?? false;
   </ul>
 
   {
-    project.link && (
-      <a
-        href={project.link.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="mt-6 inline-flex w-fit items-center gap-2 border-2 border-ink bg-accent px-3.5 py-2 font-mono text-xs font-bold uppercase text-ink shadow-[3px_3px_0_0_#0a0a0a] transition hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_0_#0a0a0a]"
-      >
-        <Icon name="simple-icons:github" class="h-4 w-4" aria-hidden="true" />
-        <span lang="de" data-lang-de>{project.link.label.de}</span><span lang="en" data-lang-en>{project.link.label.en}</span>
-        <Icon name="lucide:arrow-right" class="h-4 w-4" aria-hidden="true" />
-      </a>
+    project.links && project.links.length > 0 && (
+      <div class="mt-6 flex flex-wrap gap-3">
+        {project.links.map((link, i) => (
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class:list={[
+              'inline-flex w-fit items-center gap-2 border-2 border-ink px-3.5 py-2 font-mono text-xs font-bold uppercase text-ink shadow-[3px_3px_0_0_#0a0a0a] transition hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_0_#0a0a0a]',
+              i === 0 ? 'bg-accent' : 'bg-card',
+            ]}
+          >
+            <Icon
+              name={link.href.includes('github') ? 'simple-icons:github' : 'lucide:external-link'}
+              class="h-4 w-4"
+              aria-hidden="true"
+            />
+            <span lang="de" data-lang-de>{link.label.de}</span><span lang="en" data-lang-en>{link.label.en}</span>
+          </a>
+        ))}
+      </div>
     )
   }
 </article>
